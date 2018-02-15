@@ -13,9 +13,9 @@ exports.post = async(req, res) => {
     res.status(201).send({
       message: "Cadastro efetuado com sucesso!"
     })
-  } catch (error) {
+  } catch (e) {
     res.status(500).send({
-      message: "Falha ao efetuar cadastro!"
+      message: "Falha ao efetuar cadastro!", data: e
     })
   }
 }
@@ -50,9 +50,9 @@ exports.authenticate = async(req, res) => {
         password: user.password
       }
     })
-  } catch (error) {
+  } catch (e) {
     res.status(500).send({
-      message: 'Falha ao processar sua requisição.'
+      message: 'Falha ao processar sua requisição.', data: e
     })
   }
 }
