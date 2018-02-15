@@ -8,9 +8,11 @@ const app = express()
 mongoose.connect(config.connectionString)
 
 const User = require("./models/admin/user")
+const Horary = require("./models/horary")
 
 const indexRoute = require("./routes/index-route")
 const userRoute = require("./routes/admin/user-route")
+const horaryRoute = require("./routes/horary-route")
 
 app.use(bodyParser.json({
   limit: '5mb'
@@ -29,5 +31,6 @@ app.use(function (req, res, next) {
 
 app.use("/", indexRoute)
 app.use("/user", userRoute)
+app.use("/horary", horaryRoute)
 
 module.exports = app
