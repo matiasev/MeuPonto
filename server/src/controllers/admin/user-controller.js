@@ -23,7 +23,6 @@ exports.post = async(req, res) => {
 exports.authenticate = async(req, res) => {
   try {
     const user = await repository.authenticate({
-      name: req.body.name,
       email: req.body.email,
       password: md5(req.body.password + global.SALT_KEY)
     })

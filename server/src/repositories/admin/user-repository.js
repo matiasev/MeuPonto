@@ -8,7 +8,6 @@ exports.create = async(data) => {
 
 exports.authenticate = async(data) => {
   const res = await User.findOne({
-    name: data.name,
     email: data.email,
     password: data.password
   })
