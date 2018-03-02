@@ -1,16 +1,12 @@
-export const userService = {
-  login,
-  register
-}
 
-function login(email, password) {
+export const login = (email, password) => {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   }
 
-  return fetch('http://localhost:5000/user/authenticate', requestOptions)
+  return fetch('/user/authenticate', requestOptions)
     .then(res => res.json())
     .then(
       result => {
@@ -23,17 +19,17 @@ function login(email, password) {
     )
 }
 
-function register(user) {
+export const register = (user) => {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify(user)
   }
 
-  return fetch('http://localhost:5000/user', requestOptions).then(handleResponse)
+  return fetch('/user', requestOptions).then(handleResponse)
 }
 
-function handleResponse(response) {
+const handleResponse = (response) => {
   if (!response.ok) { 
       return Promise.reject(response.statusText);
   }

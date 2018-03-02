@@ -3,7 +3,9 @@ const Horary = mongoose.model("Horary")
 
 exports.get = async (id) => {
   const res = await Horary
-    .find({ user: id })
+    .find({ 
+      user: id
+    })
     .populate("user")
   return res
 }
@@ -31,6 +33,6 @@ exports.update = async (id, data) => {
   })
 }
 
-exports.remove = async(id) => {
+exports.remove = async (id) => {
   await Horary.findOneAndRemove(id)
 }

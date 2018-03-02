@@ -1,21 +1,21 @@
 const repository = require("../repositories/horary-repository")
 const authService = require("../services/auth-service")
 
-exports.get = async(req, res) => {
+exports.get = async (req, res) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token']
   const dataToken = await authService.decodeToken(token)
-
+  
   try {
-    const data = await repository.get(dataToken.id)
-    res.status(200).send(data)
+    const day = await verify(dataToken.id)
+    res.status(200).send(day)
   } catch (e) {
     res.status(400).send({
-      message: 'Falha ao processar sua requisição.', data: e
+      message: 'Falha ao processar sua requisição.'
     })
   }
 }
 
-exports.getById = async(req, res) => {
+exports.getById = async (req, res) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token']
   const dataToken = await authService.decodeToken(token)
 
@@ -29,22 +29,22 @@ exports.getById = async(req, res) => {
   }
 }
 
-exports.post = async(req, res, next) => {
+exports.post = async (req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token']
   const dataToken = await authService.decodeToken(token)
+  const verifyDayExist = await verify(dataToken.id)
 
   try {
-    await repository.create({
-      day: req.body.day,
-      start: req.body.start,
-      startLunch: req.body.startLunch,
-      endLunch: req.body.endLunch,
-      end: req.body.end,
-      user: dataToken.id
-    })
-    res.status(201).send({
-      message: "Horário registrado com sucesso!"
-    })
+    if (!verifyDayExist) {
+      await repository.create({
+        day: Date.now(),
+        start: Date.now(),
+        user: dataToken.id
+      })
+      res.status(201).send({
+        message: "Horário registrado com sucesso!"
+      })
+    }
   } catch (e) {
     res.status(400).send({
       message: "Falha ao registrar horário!", data: e
@@ -52,10 +52,17 @@ exports.post = async(req, res, next) => {
   }
 }
 
-exports.put = async(req, res) => {
-  // const token = req.body.token || req.query.token || req.headers['x-access-token']
-  // const dataToken = await authService.decodeToken(token)
+exports.put = async (req, res) => {
   try {
+    if (!req.body.end && req.body.endLunch && req.body.startLunch) {
+      req.body.end = Date.now()
+    }
+    if (!req.body.endLunch && req.body.startLunch) {
+      req.body.endLunch = Date.now()
+    }
+    if (!req.body.startLunch) {
+      req.body.startLunch = Date.now()
+    }
     await repository.update(req.params.id, req.body)
     res.status(200).send({
       message: "Horário atualizado com sucesso!"
@@ -67,7 +74,7 @@ exports.put = async(req, res) => {
   }
 }
 
-exports.delete = async(req, res) => {
+exports.delete = async (req, res) => {
   try {
     await repository.remove(req.params.id)
     res.status(200).send({
@@ -78,4 +85,19 @@ exports.delete = async(req, res) => {
       message: "Falha ao remover horário!", data: e
     })
   }
+}
+
+const verify = async (token) => {
+  const data = await repository.get(token)
+  const dateNow = new Date()
+  const day = await data.find(d => {
+    if (d.day.getDate() == dateNow.getDate()) {
+      if (d.day.getMonth() == dateNow.getMonth()) {
+        if (d.day.getFullYear() == dateNow.getFullYear()) {
+          return d
+        }
+      }
+    }
+  })
+  return day
 }

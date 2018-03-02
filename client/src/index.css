@@ -3,3 +3,43 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.material-icons{
+  font-size: 28px;
+}
+
+.container{
+  max-width: 400px;
+}
+.form-control{
+  border-top: none !important;
+  border-right: none !important;
+  border-left: none !important;
+  border-radius: 0px !important;
+}
+.btn-primary{
+  margin-right: 20px;
+}
+
+.btn-block{
+  border-radius: 0px;
+}
+img{
+  margin-right: 20px;
+}
+
+.lead{
+  text-align: center;
+}
+.jumbotron-home{
+  margin-bottom: 0px;
+}
+.display-5{
+  font-weight: 700;
+  text-align: center;
+}
