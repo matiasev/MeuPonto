@@ -9,6 +9,12 @@ body {
   bottom: 0;
   width: 100%;
 }
+.btnSubmit{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 105px;
+}
 .material-icons{
   font-size: 28px;
 }

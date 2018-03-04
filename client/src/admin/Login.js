@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
-import { register } from "../../_services/user.service"
+import { Link } from "react-router-dom"
+import { login } from "../_services/user.service"
 
-export default class Register extends Component {
+export default class Login extends Component {
+
   constructor(props) {
     super(props)
 
     this.state = {
-      user: {
-        name: '',
-        email: '',
-        password: '',
-      },
+      email: '',
+      password: '',
       error: null,
-      result: null,
-      isLoaded: false
+      isLoaded: false,
+      result: null
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -22,72 +21,63 @@ export default class Register extends Component {
 
   handleChange(e) {
     const { name, value } = e.target
-    const { user } = this.state
-    this.setState({
-      user: {
-        ...user,
-        [name]: value
-      }
-    })
+    this.setState({ [name]: value })
   }
 
   handleSubmit(e) {
     e.preventDefault()
 
+    const { email, password } = this.state
     this.setState({ isLoaded: true })
 
-    const { user } = this.state
-    if (user.name && user.email && user.password) {
-      register(user)
-        .then(
-          result => {
-            if (!result.data) {
-              this.setState({ isLoaded: false, result })
-              window.location.href = "/login"
-            }
-          },
-          error => {
-            this.setState({ isLoaded: false, error });
+    login(email, password)
+      .then(
+        result => {
+          if (!result.data) {
+            this.setState({ isLoaded: false, result })
           }
-        )
-    }
+        },
+        error => {
+          this.setState({ isLoaded: false, error })
+        }
+      )
   }
 
   render() {
-    const { user, error, result, isLoaded } = this.state
+    const { email, password, error, result, isLoaded } = this.state
     if (error) {
-      return <div>Error: {error}</div>;
+      return <div className="alert alert-danger" role="alert">Servidor error!</div>;
     } else {
       return (
         <div>
           <div className="jumbotron jumbotron-fluid bg-primary text-white">
             <div className="container">
-              <h1 className="display-4">Register</h1>
+              <h1 className="display-4">Login</h1>
             </div>
           </div>
           <div className="container">
             <form name="form" onSubmit={this.handleSubmit}>
               <div className="form-group">
-                <label>Name</label>
-                <input type="text" className="form-control" name="name" value={user.name} onChange={this.handleChange} />
-              </div>
-              <div className="form-group">
                 <label>Email address</label>
-                <input type="email" className="form-control" name="email" value={user.email} onChange={this.handleChange} />
+                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" value={email} onChange={this.handleChange} />
               </div>
               <div className="form-group">
                 <label>Password</label>
-                <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
+                <input type="password" className="form-control" id="exampleInputPassword1" name="password" value={password} onChange={this.handleChange} />
               </div>
 
               {result &&
-                <div className="alert alert-primary" role="alert">{result.message}</div>
+                <div class="alert alert-danger" role="alert">{result.message}</div>
               }
 
-              <button className="btn btn-primary">Register</button>
+              <button className="btn btn-primary">Login</button>
               {isLoaded &&
                 <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" alt=""/>
+
               }
+
+              <Link to="/register">Register</Link>
+
             </form>
           </div>
         </div>

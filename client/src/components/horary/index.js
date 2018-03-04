@@ -1,6 +1,0 @@
-export {Horary}     from './horary'
-export {Header}     from './Header'
-export {HoraryList} from './HoraryList'
-export {HoraryBtn}  from './HoraryBtn'
-export {Footer}     from './Footer'
-export {Menu}       from './Menu'
