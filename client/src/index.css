@@ -4,6 +4,9 @@ body {
   font-family: sans-serif;
 }
 
+.breadcrumb{
+  margin-bottom: 0px;
+}
 .footer{
   position: fixed;
   bottom: 0;

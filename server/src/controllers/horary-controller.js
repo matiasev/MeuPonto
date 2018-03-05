@@ -4,9 +4,21 @@ const authService = require("../services/auth-service")
 exports.get = async (req, res) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token']
   const dataToken = await authService.decodeToken(token)
-  
   try {
-    const day = await verify(dataToken.id)
+    const day = await verifyDayExist(dataToken.id)
+    res.status(200).send(day)
+  } catch (e) {
+    res.status(400).send({
+      message: 'Falha ao processar sua requisição.'
+    })
+  }
+}
+
+exports.getAll = async (req, res) => {
+  const token = req.body.token || req.query.token || req.headers['x-access-token']
+  const dataToken = await authService.decodeToken(token)
+  try {
+    const day = await repository.get(dataToken.id)
     res.status(200).send(day)
   } catch (e) {
     res.status(400).send({
@@ -18,7 +30,6 @@ exports.get = async (req, res) => {
 exports.getById = async (req, res) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token']
   const dataToken = await authService.decodeToken(token)
-
   try {
     const data = await repository.getById(req.params.id)
     res.status(201).send(data)
@@ -32,10 +43,9 @@ exports.getById = async (req, res) => {
 exports.post = async (req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token']
   const dataToken = await authService.decodeToken(token)
-  const verifyDayExist = await verify(dataToken.id)
-
+  const dayExist = await verifyDayExist(dataToken.id)
   try {
-    if (!verifyDayExist) {
+    if (!dayExist) {
       await repository.create({
         day: Date.now(),
         start: Date.now(),
@@ -87,7 +97,7 @@ exports.delete = async (req, res) => {
   }
 }
 
-const verify = async (token) => {
+const verifyDayExist = async (token) => {
   const data = await repository.get(token)
   const dateNow = new Date()
   const day = await data.find(d => {

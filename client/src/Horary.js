@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+import { Menu } from './components'
 import { get, post, put } from "./_services/horary.service"
 require('moment/locale/pt')
 
@@ -31,6 +32,9 @@ export default class Horary extends Component {
     const { horary } = this.state
     return (
       <div>
+        <Menu 
+          title={'Horary'}
+        />
         <ul className="list-group list-group-flush">
           <li className="list-group-item d-flex justify-content-between">Entrada
             {horary.start &&
@@ -66,17 +70,20 @@ export default class Horary extends Component {
           </li>
         </ul>
 
-        <Submit 
+        <Submit
           horary={horary}
           componentDidMount={this.componentDidMount}
         />
+
+
+
       </div>
     )
   }
 }
 
 export class Submit extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
