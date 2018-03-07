@@ -71,7 +71,7 @@ export class Footer extends Component {
             <Link className="nav-link" to="/calendary"><i className="material-icons">event_note</i></Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/sobre"><i className="material-icons">person</i></Link>
+            <Link className="nav-link" to="/score"><i className="material-icons">person</i></Link>
           </li>
         </ul>
       </div>

@@ -5,8 +5,8 @@ exports.get = async (id) => {
   const res = await Horary
     .find({ 
       user: id
-    })
-    .populate("user")
+    }, 'day start startLunch endLunch end user')
+    .populate("user", "name")
   return res
 }
 

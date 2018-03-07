@@ -31,8 +31,8 @@ export const register = (user) => {
 
 const handleResponse = (response) => {
   if (!response.ok) { 
-      return Promise.reject(response.statusText);
+      return Promise.reject(response.statusText)
   }
 
-  return response.json();
+  return response.json()
 }

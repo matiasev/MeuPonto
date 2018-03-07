@@ -4,14 +4,14 @@ import moment from 'moment'
 import { getAll } from "./_services/app.service"
 require('moment/locale/pt')
 
-export default class Calendary extends Component {
+export default class Score extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      title: 'Calendary',
+      title: 'Score',
       error: null,
-      calendary: []
+      score: []
     }
 
     this.componentWillMount = this.componentWillMount.bind(this)
@@ -20,8 +20,8 @@ export default class Calendary extends Component {
   componentWillMount() {
     getAll()
       .then(
-        calendary => {
-          this.setState({ calendary })
+        score => {
+          this.setState({ score })
         },
         error => {
           this.setState({ error })
@@ -29,7 +29,7 @@ export default class Calendary extends Component {
       )
   }
   render() {
-    const { calendary, title } = this.state
+    const { score, title } = this.state
     return (
       <div>
         <Menu
@@ -45,10 +45,10 @@ export default class Calendary extends Component {
           </thead>
           <tbody>
           {
-              calendary.map(d => {
+              score.map(d => {
                 return (
                   <tr key={d.id}>
-                    <td>{moment(d.day).format('LL')}</td>
+                    <td>{moment(d.day).format('MMMM YYYY')}</td>
                     <td>{d.hours + ':' + d.minutes}</td>
                   </tr>
                 );
