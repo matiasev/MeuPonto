@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Menu } from './components'
+import { Menu } from './components/Menu'
 import moment from 'moment'
 import { getAll } from "./_services/horary.service"
 require('moment/locale/pt')
@@ -9,6 +9,7 @@ export default class Calendary extends Component {
     super(props)
 
     this.state = {
+      title: 'Calendary',
       error: null,
       calendary: []
     }
@@ -28,10 +29,11 @@ export default class Calendary extends Component {
       )
   }
   render() {
+    const { calendary, title } = this.state
     return (
       <div>
         <Menu
-          title={'Calendary'}
+          title={title}
         />
       
         <table className="table table-striped">
@@ -43,11 +45,11 @@ export default class Calendary extends Component {
           </thead>
           <tbody>
           {
-              this.state.calendary.map(d => {
+              calendary.map(d => {
                 return (
-                  <tr key={d._id}>
+                  <tr key={d.id}>
                     <td>{moment(d.day).format('LL')}</td>
-                    <td>10:00</td>
+                    <td>{d.hours + ':' + d.minutes}</td>
                   </tr>
                 );
               })

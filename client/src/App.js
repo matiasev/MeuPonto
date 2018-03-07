@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import moment from 'moment'
 require('moment/locale/pt')
 
-export default class Home extends Component {
+export default class App extends Component {
 
   render() {
     return (

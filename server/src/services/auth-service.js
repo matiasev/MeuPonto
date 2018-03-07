@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken")
 
 exports.generateToken = async(data) => {
-  const token = await jwt.sign(data, global.SALT_KEY, { expiresIn: "1d"})
+  const token = await jwt.sign(data, global.SALT_KEY, { expiresIn: "7d"})
   return token
 }
 

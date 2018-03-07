@@ -19,17 +19,30 @@ export const getAll = () => {
     .then(res => res.json())
     .then(result => {
       var res = result.map(i => {
-        
-        var start = new Date(i.start).getTime()
-        var startLunch = new Date(i.startLunch).getTime()
-        var sum = startLunch - start
+        var h1 = new Date(i.start).getTime()
+        var h2 = new Date(i.startLunch).getTime()
+        var h3 = new Date(i.endLunch).getTime()
+        var h4 = new Date(i.end).getTime()
 
-        // m: Math.abs(Math.round(df / (60 * 1000)) - (60 * 1000)), //minutos
-        return {
-          day: Math.round(sum / (60 * 60 * 1000))
+        var time = (h2 - h1) + (h4 - h3)
+        var hours = Math.floor(time / (1000 * 60 * 60))
+        var minutes = Math.floor((time / (1000 * 60 * 60) - hours) * 60)
+        if (minutes < 10) { minutes = '0' + minutes }
+        if (hours < 10) { hours = '0' + hours }
+
+        if (h4) {
+          return {
+            id: i._id,
+            hours: hours,
+            minutes: minutes,
+            day: new Date(i.day).getTime()
+          }
         }
-      })
-      console.log(res)
+      }).filter(e => e !== undefined)
+        .sort((a, b) => {
+          return a.day > b.day ? -1 : a.day < b.day ? 1 : 0;
+        })
+
       return res
     })
 

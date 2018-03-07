@@ -2,8 +2,8 @@
 import ReactDOM from 'react-dom'
 import { Router, Route, Switch } from "react-router-dom"
 import { history } from './_helpers/history'
-import { PrivateRoute } from './_components/PrivateRoute'
-import Home from './Home'
+import { PrivateRoute } from './components/PrivateRoute'
+import App from './App'
 import Horary from './Horary'
 import Calendary from './Calendary'
 import Login from './admin/Login'
@@ -18,10 +18,10 @@ ReactDOM.render(
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
 
-      <Home>
+      <App>
         <PrivateRoute exact path='/' component={Horary} />
         <PrivateRoute path="/calendary" component={Calendary} />
-      </Home>
+      </App>
       </Switch>
     </div>
   </Router>

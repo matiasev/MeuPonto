@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { Menu } from './components'
+import { Menu } from './components/Menu'
 import { get, post, put } from "./_services/horary.service"
 require('moment/locale/pt')
 
@@ -9,6 +9,7 @@ export default class Horary extends Component {
     super(props)
 
     this.state = {
+      title: 'Horary',
       horary: [],
       error: null,
     }
@@ -29,11 +30,11 @@ export default class Horary extends Component {
   }
 
   render() {
-    const { horary } = this.state
+    const { title, horary } = this.state
     return (
       <div>
         <Menu 
-          title={'Horary'}
+          title={title}
         />
         <ul className="list-group list-group-flush">
           <li className="list-group-item d-flex justify-content-between">Entrada
