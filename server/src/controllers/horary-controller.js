@@ -100,13 +100,13 @@ exports.delete = async (req, res) => {
 const verifyDayExist = async (token) => {
   const data = await repository.get(token)
   const dateNow = new Date()
-  const day = await data.find(d => {
-    if (d.day.getDate() == dateNow.getDate()) {
-      if (d.day.getMonth() == dateNow.getMonth()) {
-        if (d.day.getFullYear() == dateNow.getFullYear()) {
-          return d
-        }
-      }
+  const day = await data.find(e => {
+    if (
+      e.day.getDate() == dateNow.getDate() &&
+      e.day.getMonth() == dateNow.getMonth() &&
+      e.day.getFullYear() == dateNow.getFullYear()
+    ) {
+      return e
     }
   })
   return day

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 import { Menu } from './components/Menu'
 import { get, post, put } from "./_services/app.service"
+import moment from 'moment'
 require('moment/locale/pt')
 
 export default class Horary extends Component {
@@ -75,9 +75,6 @@ export default class Horary extends Component {
           horary={horary}
           componentDidMount={this.componentDidMount}
         />
-
-
-
       </div>
     )
   }

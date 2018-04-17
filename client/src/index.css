@@ -12,6 +12,13 @@ body {
   bottom: 0;
   width: 100%;
 }
+.d-flex{
+  padding-top: 10px;
+  background-color: white;
+}
+.table{ 
+  margin-bottom: 100px;
+}
 .btnSubmit{
   position: fixed;
   bottom: 0;
@@ -51,4 +58,8 @@ img{
 .display-5{
   font-weight: 700;
   text-align: center;
+}
+
+li.nav-item {
+  margin: 0 8%;
 }

@@ -63,7 +63,7 @@ export class Footer extends Component {
   render() {
     return (
       <div>
-        <ul className="nav d-flex justify-content-between">
+        <ul className="nav d-flex justify-content-center">
           <li className="nav-item">
             <Link className="nav-link active" to="/"><i className="material-icons">fingerprint</i></Link>
           </li>
@@ -71,7 +71,7 @@ export class Footer extends Component {
             <Link className="nav-link" to="/calendary"><i className="material-icons">event_note</i></Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/score"><i className="material-icons">person</i></Link>
+            <Link className="nav-link" to="/user"><i className="material-icons">person</i></Link>
           </li>
         </ul>
       </div>

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Menu } from './components/Menu'
-import moment from 'moment'
 import { getAll } from "./_services/app.service"
+import moment from 'moment'
 require('moment/locale/pt')
 
 export default class Calendary extends Component {
@@ -14,14 +14,40 @@ export default class Calendary extends Component {
       calendary: []
     }
 
-    this.componentWillMount = this.componentWillMount.bind(this)
+    this.componentDidMount = this.componentDidMount.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getAll()
       .then(
-        calendary => {
+        response => {
+          const calendary = response.map(i => {
+            const h1 = new Date(i.start).getTime()
+            const h2 = new Date(i.startLunch).getTime()
+            const h3 = new Date(i.endLunch).getTime()
+            const h4 = new Date(i.end).getTime()
+
+            const time = (h2 - h1) + (h4 - h3)
+            let hours = Math.floor(time / (1000 * 60 * 60))
+            let minutes = Math.floor((time / (1000 * 60 * 60) - hours) * 60)
+            if (minutes < 10) { minutes = '0' + minutes }
+            if (hours < 10) { hours = '0' + hours }
+
+            if (h4) {
+              return {
+                id: i._id,
+                hours: hours,
+                minutes: minutes,
+                day: new Date(i.day).getTime()
+              }
+            }
+          }).filter(e => e !== undefined)
+            .sort((a, b) => {
+              return a.day > b.day ? -1 : a.day < b.day ? 1 : 0;
+            })
+
           this.setState({ calendary })
+
         },
         error => {
           this.setState({ error })
@@ -35,7 +61,7 @@ export default class Calendary extends Component {
         <Menu
           title={title}
         />
-      
+
         <table className="table table-striped">
           <thead>
             <tr>
@@ -44,7 +70,7 @@ export default class Calendary extends Component {
             </tr>
           </thead>
           <tbody>
-          {
+            {
               calendary.map(d => {
                 return (
                   <tr key={d.id}>
